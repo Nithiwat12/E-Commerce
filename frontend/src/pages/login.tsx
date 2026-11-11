@@ -1,9 +1,12 @@
-import Navbar from '../component/navbar'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 
-function Login() {
+type LoginProps = {
+  setIsLogin: (value: boolean) => void;
+};
+
+function Login({ setIsLogin }: LoginProps) {
 const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -18,10 +21,14 @@ const [username, setUsername] = useState('')
         {
           username: username,
           password: password
-        }
+        },
+  {
+    withCredentials: true
+  }
       )
       
       if (response.data.available) {
+          setIsLogin(true);
           navigate("/");
         } else {
           setMessage(response.data.message);
@@ -32,9 +39,9 @@ const [username, setUsername] = useState('')
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
-    console.log("Status:", error.response?.status);
-    console.log("Response Data:", JSON.stringify(error.response?.data, null, 2));
-    console.log("Request Data:", error.config?.data);
+          console.log("Status:", error.response?.status);
+          console.log("Response Data:", JSON.stringify(error.response?.data, null, 2));
+          console.log("Request Data:", error.config?.data);
   } else {
     console.log(error);
   }
@@ -42,7 +49,6 @@ const [username, setUsername] = useState('')
   }
   return (
     <>
-      <Navbar/>
 
       <div className="flex justify-center items-center min-h-[80vh] ">
             <div className="w-full max-w-md bg-white border rounded-2xl shadow-lg p-8">

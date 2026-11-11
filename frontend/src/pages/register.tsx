@@ -1,5 +1,3 @@
-
-import Navbar from '../component/navbar'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
@@ -14,7 +12,7 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState("")
   const [messageType, setMessageType] = useState<"success" | "error">("success")
-
+  
   
 
 
@@ -75,12 +73,13 @@ function Register() {
           username: username,
           password: password,
           category: category
-        }
+        },
+  {
+    withCredentials: true
+  }
       )
 
       
-      
-
       console.log(response.data)
       alert('Register Success!')
       
@@ -100,7 +99,7 @@ function Register() {
 
   return (
     <>
-      <Navbar />
+
 
       <div className="flex justify-center items-center min-h-[80vh]">
         <div className="w-full max-w-md bg-white border rounded-2xl shadow-lg p-8">

@@ -9,7 +9,11 @@ load_dotenv()
 #URL สำหรับเชื่อมต่อ Database
 DATABASE_URL = os.getenv("DATABASE_URL")
 #Engine สำหรับเชื่อมต่อ PostgreSQL
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL,
+    pool_pre_ping=True,
+    pool_recycle=300)
+
+
 
 #Session สำหรับใช้งาน Database
 SessionLocal = sessionmaker(

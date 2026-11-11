@@ -27,12 +27,12 @@ def get_current_user(
         payload = jwt.decode(
             access_token,
             SECRET_KEY,
-            algorithms=ALGORITHM
+            algorithms=[ALGORITHM]
         )
         
-        user_id = int[payload["sub"]]
+        user_id = int(payload["sub"])
 
-    except (jwt.InvalidAlgorithmError, KeyError, TypeError, ValueError):
+    except (jwt.InvalidTokenError, KeyError, TypeError, ValueError):
         raise HTTPException(
             status_code=401,
             detail="Invalid or expired token"

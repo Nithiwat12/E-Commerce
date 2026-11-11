@@ -9,10 +9,10 @@ from app.schemas.user import UserLogin
 from app.utils.password import verify_password
 
 from app.utils.token import create_token
+
+from app.utils.dependencies import get_current_user
+
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
-
-
-
 
 
 @router.post("/login")
@@ -123,7 +123,19 @@ async def check_username(
         "available": True,
         "message": "Username is available."
     }
-            
+
+
+@router.get("/me")
+async def get_profile(
+    curren_user: User = Depends(get_current_user)
+):
+    return{
+        "id":curren_user.id,
+        "username":curren_user.username,
+        "catagory":curren_user.category
+    }
+    
+     
 
         
 
