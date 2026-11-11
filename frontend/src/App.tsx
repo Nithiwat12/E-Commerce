@@ -37,7 +37,7 @@ function AppContent() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register  setIsLogin={setIsLogin}/>} />
         <Route
           path="/login"
           element={<Login setIsLogin={setIsLogin} />}

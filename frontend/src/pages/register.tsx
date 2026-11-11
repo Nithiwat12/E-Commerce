@@ -2,8 +2,10 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 
-
-function Register() {
+type RegisterProps = {
+  setIsLogin: (value: boolean) => void;
+};
+function Register({setIsLogin}:RegisterProps) {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -18,8 +20,7 @@ function Register() {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    try{
+try{
       const Chek_user = await axios.get(
         'http://localhost:5000/api/auth/check-user-existing',
         {
@@ -45,6 +46,7 @@ function Register() {
         )
     }
     }
+    
 
   if (password !== confirmPassword) {
     setMessage("There is an issue with the password.");
@@ -61,9 +63,6 @@ function Register() {
     setMessageType("error");
   }
 
-  if (password.length > 0) {
-    return;
-  }
 
 
     try {
@@ -81,9 +80,10 @@ function Register() {
 
       
       console.log(response.data)
-      alert('Register Success!')
+
       
       if (response.status === 200) {
+        setIsLogin(true)
         navigate("/")
       }
 

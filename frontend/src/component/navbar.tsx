@@ -1,14 +1,28 @@
+import axios from 'axios';
 import { Link } from 'react-router-dom'
-
+import { useNavigate } from "react-router-dom"
 type NavbarProps = {
   IsLogin: boolean;
   setIsLogin: (value: boolean) => void;
 };
 function  Navbar({ IsLogin, setIsLogin }: NavbarProps) {
+  const navigate = useNavigate()
+  const handleLogout = async () =>{
+    try{
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/logout",
+            {},
+            { withCredentials: true }
+      )
+      if(response.data.available){
+        setIsLogin(false)
+        navigate("/");
+      }
+    }catch (error) {
+        console.error("Logout failed:", error);
+  }
 
-
-
-
+  }
   return (
     <>
       <nav className="flex items-center justify-between bg-cyan-700 px-12 py-4">
@@ -29,7 +43,7 @@ function  Navbar({ IsLogin, setIsLogin }: NavbarProps) {
       {IsLogin ? (
         <div className="flex items-center gap-4 text-white">
           <Link to="#">Profile</Link>
-          <button >Logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
 ) : (
       <div className="flex items-center gap-4 text-white">

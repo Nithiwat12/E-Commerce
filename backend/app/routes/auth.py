@@ -63,6 +63,21 @@ async def login(
     }
 
 
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        httponly=True,
+        samesite="lax",
+        secure=False
+    )
+
+    return {
+        "available": True,
+        "message": "Logout Successful"
+    }
+
 @router.post("/register", response_model=UserResponse)
 async def register(
     body: UserRegister,
